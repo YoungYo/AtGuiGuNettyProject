@@ -2,8 +2,10 @@ package com.atguigu.netty.simple;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.ChannelPipeline;
 import io.netty.util.CharsetUtil;
 
 /**
@@ -20,11 +22,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
      */
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("服务器读取线程：" + Thread.currentThread().getName());
         System.out.printf("Server ctx = %s\n", ctx);
+        System.out.println("channel 和 pipeline的关系：");
+        Channel channel = ctx.channel();
+//        ChannelPipeline pipeline = ctx.pipeline(); //本质上是一个双向链表，涉及到出栈入栈的问题
         //将msg转成一个ByteBuf
         ByteBuf buf = (ByteBuf) msg;
-        System.out.printf("客户端发送的消息是：%s\n", buf.toString(CharsetUtil.UTF_8));
-        System.out.printf("客户端的地址是：%s\n", ctx.channel().remoteAddress());
+        System.out.printf("客户端发送的消息：%s\n", buf.toString(CharsetUtil.UTF_8));
+        System.out.printf("客户端的地址是：%s\n", channel.remoteAddress());
     }
 
     /**

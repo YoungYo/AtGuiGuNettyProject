@@ -17,8 +17,9 @@ public class NettyServer {
          * 1. 创建两个线程组，bossGroup 和 workerGroup。
          * 2. bossGroup 只是负责处理连接请求，workerGroup 真正地处理业务逻辑。
          * 3. 两个都是无限循环
+         * 4. bossGroup 和 workerGroup 含有的子线程（NioEventLoop）的个数默认是等于CPU核数×2
          */
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup bossGroup = new NioEventLoopGroup(1); //将bossGroup中的子线程个数设置为1
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
