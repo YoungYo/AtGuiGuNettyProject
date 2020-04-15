@@ -18,5 +18,6 @@ public class TestServerInitializer extends ChannelInitializer<SocketChannel> {
 
         //增加一个自定义的Handler
         pipeline.addLast("MyTestHttpServerHandler", new TestHttpServerHandler());
+        System.out.println("ok");
     }
 }
